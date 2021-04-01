@@ -3,6 +3,8 @@ const app = new Vue({
   data: {
     product: 'Socks',
     image: './assets/vmSocks-green-onWhite.jpg',
-    imageLink: 'https://www.vuemastery.com/images/challenges/vmSocks-green-onWhite.jpg'
+    imageLink: 'https://www.vuemastery.com/images/challenges/vmSocks-green-onWhite.jpg',
+    imageAlt: 'Green socks',
+    inStock: true,
   }
 });

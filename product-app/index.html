@@ -13,11 +13,13 @@
       <div class="product">
         <div class="product-image">
           <a :href="imageLink" target="_blank">
-            <img :src="image" alt="" />
+            <img :src="image" :alt="imageAlt" />
           </a>
         </div>
         <div class="product-info">
           <h1>{{ product }}</h1>
+          <p v-if="inStock">In Stock</p>
+          <p v-else>Out of Stock</p>
         </div>
       </div>
     </div>
