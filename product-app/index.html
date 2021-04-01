@@ -12,14 +12,13 @@
     <div id="app">
       <div class="product">
         <div class="product-image">
-          <a :href="imageLink" target="_blank">
-            <img :src="image" :alt="imageAlt" />
-          </a>
+          <img :src="image" />
         </div>
         <div class="product-info">
-          <h1>{{ product }}</h1>
+          <h1>{{ title }}</h1>
           <p v-if="inStock">In Stock</p>
           <p v-else :class="{ outOfStock: !inStock }">Out of Stock</p>
+          <p>{{ sale }}</p>
 
           <ul>
             <li v-for="(detail, index) in details" :key="index">
@@ -28,11 +27,11 @@
           </ul>
 
           <div
-            v-for="variant in variants"
+            v-for="(variant, index) in variants"
             :key="variant.id"
             class="color-box"
             :style="{ 'background-color': variant.color }"
-            @mouseover="updateProduct(variant)"
+            @mouseover="updateProduct(index)"
           ></div>
 
           <button
