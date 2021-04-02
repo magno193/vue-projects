@@ -39,6 +39,18 @@ Vue.component('Product', {
             Add to Cart
           </button>
           <button @click="removeFromCart">Remove item</button>
+
+          <div>
+            <h2>Reviews</h2>
+            <p v-if="!reviews.length">There are no reviews yet</p>
+            <ul>
+              <li v-for="review in reviews">
+                <p>{{review.name}}</p>
+                <p>Rating: {{review.rating}}</p>
+                <p>{{review.review}}</p>
+              </li>
+            </ul> 
+          </div>
         </div>
         <product-review @review-submitted="addReview"></product-review>
       </div>
@@ -107,6 +119,12 @@ Vue.component('Product', {
 Vue.component('product-review', {
   template: `
     <form class="review-form" @submit.prevent="onSubmit">
+      <p v-if="errors.length">
+        <b>Please correct the following error(s):</b>
+        <ul>
+          <li v-for="error in errors">{{ error }}</li>
+        </ul>
+      </p>
       <p>
         <label for="name">Name:</label>
         <input id="name" v-model="name"/>
@@ -138,19 +156,27 @@ Vue.component('product-review', {
       name: null,
       review: null,
       rating: null,
+      errors: []
     }
   },
   methods: {
     onSubmit() {
-      let productReview = {
-        name: this.name,
-        review: this.review,
-        rating: this.rating,
-      };
-      this.$emit('review-submitted', productReview);
-      this.name = null;
-      this.review = null;
-      this.rating = null;
+      if (this.name && this.review && this.rating) {
+        let productReview = {
+          name: this.name,
+          review: this.review,
+          rating: this.rating,
+        };
+        this.$emit('review-submitted', productReview);
+        this.name = null;
+        this.review = null;
+        this.rating = null;
+      } else {
+        this.errors = [];
+        if (!this.name) this.errors.push("Name required");
+        if (!this.review) this.errors.push("Review required");
+        if (!this.rating) this.errors.push("Rating required");
+      }
     }
   }
 });
