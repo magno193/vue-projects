@@ -40,6 +40,7 @@ Vue.component('Product', {
           </button>
           <button @click="removeFromCart">Remove item</button>
         </div>
+        <product-review @review-submitted="addReview"></product-review>
       </div>
   `,
   data() {
@@ -62,7 +63,8 @@ Vue.component('Product', {
           quantity: 0
         }],
       cart: 0,
-      onSale: false
+      onSale: false,
+      reviews: [],
     }
   },
   methods: {
@@ -74,6 +76,9 @@ Vue.component('Product', {
     },
     updateProduct(index) {
       this.selectedVariant = index;
+    },
+    addReview(productReview) {
+      this.reviews.push(productReview);
     }
   },
   computed: {
@@ -98,6 +103,59 @@ Vue.component('Product', {
     }
   },
 });
+
+Vue.component('product-review', {
+  template: `
+    <form class="review-form" @submit.prevent="onSubmit">
+      <p>
+        <label for="name">Name:</label>
+        <input id="name" v-model="name"/>
+      </p>
+
+      <p>
+        <label for="review">Review:</label>
+        <textarea id="review" v-model="review"/>
+      </p>
+
+      <p>
+        <label for="rating">Rating:</label>
+        <select id="rating" v-model.number="rating">
+          <option>5</option>
+          <option>4</option>
+          <option>3</option>
+          <option>2</option>
+          <option>1</option>
+        </select>
+      </p>
+
+      <p>
+        <input type="submit" value="Submit"/>
+      </p>
+    </form>
+  `,
+  data() {
+    return {
+      name: null,
+      review: null,
+      rating: null,
+    }
+  },
+  methods: {
+    onSubmit() {
+      let productReview = {
+        name: this.name,
+        review: this.review,
+        rating: this.rating,
+      };
+      this.$emit('review-submitted', productReview);
+      this.name = null;
+      this.review = null;
+      this.rating = null;
+    }
+  }
+});
+
+Vue.config.devtools = true;
 const app = new Vue({
   el: '#app',
   data: {
