@@ -44,6 +44,7 @@ app.component('product-display', {
           </button>
         </div>
       </div>
+      <review-form @review-submitted="addReview" ></review-form>
     </div>`,
   data() {
     return {
@@ -64,7 +65,8 @@ app.component('product-display', {
           image: './assets/images/socks_blue.jpg',
           quantity: 0,
         }
-      ]
+      ],
+      reviews: [],
     }
   },
   methods: {
@@ -76,6 +78,10 @@ app.component('product-display', {
     },
     updateVariant(index) {
       this.selectedVariant = index;
+    },
+    addReview(review) {
+      this.reviews.push(review);
+      console.log(this.reviews);
     }
   },
   computed: {
