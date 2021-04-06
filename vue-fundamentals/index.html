@@ -8,8 +8,19 @@
   </head>
   <body>
     <div id="shopping-list">
-      <h1>{{header}}</h1>
-      <input v-model="header" />
+      <h1>{{header || 'Welcome'}}</h1>
+      <form class="add-item-form" @submit.prevent="addItem">
+        <input
+          type="text"
+          v-model="newItem"
+          placeholder="Add new item"
+          @keyup.enter="addItem"
+        />
+        <button type="submit" class="btn btn-primary">Save Item</button>
+      </form>
+      <ul>
+        <li v-for="item in items">{{item}}</li>
+      </ul>
     </div>
   </body>
   <script src="https://unpkg.com/vue@3"></script>
@@ -17,9 +28,16 @@
     Vue.createApp({
       data() {
         return {
-          header: "Welcome to Vue Fundamentals!",
-          input: "",
+          header: "Shopping List App",
+          items: ["10 party hats", "2 board games", "20 cups"],
+          newItem: "",
         };
+      },
+      methods: {
+        addItem() {
+          this.items.push(this.newItem);
+          this.newItem = "";
+        },
       },
     }).mount("#shopping-list");
   </script>
