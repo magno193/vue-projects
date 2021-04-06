@@ -8,19 +8,34 @@
   </head>
   <body>
     <div id="shopping-list">
-      <h1>{{header || 'Welcome'}}</h1>
-      <form class="add-item-form" @submit.prevent="addItem">
+      <div class="header">
+        <h1>{{header || 'Welcome'}}</h1>
+        <button class="btn btn-cancel" v-if="editing" @click="isEditing(false)">
+          Cancel
+        </button>
+        <button class="btn btn-primary" v-else @click="isEditing(true)">
+          Add new Item
+        </button>
+      </div>
+      <form class="add-item-form" @submit.prevent="addItem" v-if="editing">
         <input
           type="text"
           v-model="newItem"
           placeholder="Add new item"
           @keyup.enter="addItem"
         />
-        <button type="submit" class="btn btn-primary">Save Item</button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          :disabled="!newItem.length"
+        >
+          Save Item
+        </button>
       </form>
-      <ul>
+      <ul v-if="items.length">
         <li v-for="item in items">{{item}}</li>
       </ul>
+      <p v-else>Nice job! You've bought all your items!</p>
     </div>
   </body>
   <script src="https://unpkg.com/vue@3"></script>
@@ -31,11 +46,16 @@
           header: "Shopping List App",
           items: ["10 party hats", "2 board games", "20 cups"],
           newItem: "",
+          editing: false,
         };
       },
       methods: {
         addItem() {
           this.items.push(this.newItem);
+          this.newItem = "";
+        },
+        isEditing(flag) {
+          this.editing = flag;
           this.newItem = "";
         },
       },
