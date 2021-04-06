@@ -10,9 +10,14 @@
     <div id="shopping-list">
       <div class="header">
         <h1>{{header || 'Welcome'}}</h1>
-        <button class="btn btn-cancel" v-if="editing" @click="isEditing(false)">
-          Cancel
-        </button>
+        <div class="btn-container" v-if="editing">
+          <button class="btn btn-cancel" @click="removePurchased">
+            Remove purchased
+          </button>
+          <button class="btn btn-cancel" @click="isEditing(false)">
+            Close
+          </button>
+        </div>
         <button class="btn btn-primary" v-else @click="isEditing(true)">
           Add new Item
         </button>
@@ -24,13 +29,14 @@
           placeholder="Add new item"
           @keyup.enter="addItem"
         />
+        <p class="counter">{{characterCount}}</p>
         <button type="submit" class="btn btn-primary" :disabled="!newItem">
           Save Item
         </button>
       </form>
       <ul v-if="items.length">
         <li
-          v-for="item in items"
+          v-for="item in reversedItems"
           :class="{ 'strikeout': item.purchased, 'priority': item.highPriority }"
           @click="togglePurchased(item)"
         >
@@ -69,6 +75,17 @@
         },
         togglePurchased(item) {
           item.purchased = !item.purchased;
+        },
+        removePurchased() {
+          this.items = this.items.filter((item) => !item.purchased);
+        },
+      },
+      computed: {
+        characterCount() {
+          return 200 - this.newItem.length;
+        },
+        reversedItems() {
+          return [...this.items].reverse();
         },
       },
     }).mount("#shopping-list");
