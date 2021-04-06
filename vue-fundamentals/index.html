@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Shopping List App</title>
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <div id="shopping-list">
+      <div class="header">
+        <h1>{{header || 'Welcome'}}</h1>
+        <div class="btn-container" v-if="editing">
+          <button class="btn btn-cancel" @click="removePurchased">
+            Remove purchased
+          </button>
+          <button class="btn btn-cancel" @click="isEditing(false)">
+            Close
+          </button>
+        </div>
+        <button class="btn btn-primary" v-else @click="isEditing(true)">
+          Add new Item
+        </button>
+      </div>
+      <form class="add-item-form" @submit.prevent="addItem" v-if="editing">
+        <input
+          type="text"
+          v-model="newItem"
+          placeholder="Add new item"
+          @keyup.enter="addItem"
+        />
+        <p class="counter">{{characterCount}}</p>
+        <button type="submit" class="btn btn-primary" :disabled="!newItem">
+          Save Item
+        </button>
+      </form>
+      <ul v-if="items.length">
+        <li
+          v-for="item in reversedItems"
+          :class="{ 'strikeout': item.purchased, 'priority': item.highPriority }"
+          @click="togglePurchased(item)"
+        >
+          {{item.label}}
+        </li>
+      </ul>
+      <p v-else>Nice job! You've bought all your items!</p>
+    </div>
+  </body>
+  <script src="https://unpkg.com/vue@3"></script>
+  <script>
+    Vue.createApp({
+      data() {
+        return {
+          header: "Shopping List App",
+          items: [
+            { label: "10 party hats", purchased: false, highPriority: false },
+            { label: "2 board games", purchased: true, highPriority: false },
+            { label: "20 cups", purchased: false, highPriority: true },
+          ],
+          newItem: "",
+          editing: false,
+        };
+      },
+      methods: {
+        addItem() {
+          this.items.push({
+            label: this.newItem,
+            purchased: false,
+          });
+          this.newItem = "";
+        },
+        isEditing(flag) {
+          this.editing = flag;
+          this.newItem = "";
+        },
+        togglePurchased(item) {
+          item.purchased = !item.purchased;
+        },
+        removePurchased() {
+          this.items = this.items.filter((item) => !item.purchased);
+        },
+      },
+      computed: {
+        characterCount() {
+          return 200 - this.newItem.length;
+        },
+        reversedItems() {
+          return [...this.items].reverse();
+        },
+      },
+    }).mount("#shopping-list");
+  </script>
+</html>
