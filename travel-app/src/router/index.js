@@ -11,27 +11,6 @@ const routes = [
     component: Home,
   },
   {
-    path: "/brazil",
-    name: "brazil",
-    component: () => import(/* webpackChunkName: "brazil" */ "@/views/Brazil"),
-  },
-  {
-    path: "/hawaii",
-    name: "hawaii",
-    component: () => import(/* webpackChunkName: "hawaii" */ "@/views/Hawaii"),
-  },
-  {
-    path: "/jamaica",
-    name: "jamaica",
-    component: () =>
-      import(/* webpackChunkName: "jamaica" */ "@/views/Jamaica"),
-  },
-  {
-    path: "/panama",
-    name: "panama",
-    component: () => import(/* webpackChunkName: "panama" */ "@/views/Panama"),
-  },
-  {
     path: "/details/:id",
     name: "DestinationDetails",
     component: () =>

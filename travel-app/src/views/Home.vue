@@ -53,4 +53,12 @@ img {
 .destinations > div {
   margin: 0 auto;
 }
+a {
+  color: lightseagreen;
+  text-decoration: none;
+}
+a:hover,
+a:visited {
+  text-decoration: underline;
+}
 </style>
