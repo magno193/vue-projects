@@ -5,7 +5,7 @@
       <div v-for="destination in destinations" :key="destination.name">
         <router-link
           :to="{
-            name: 'DestinationDetails',
+            name: 'destinationDetails',
             params: { slug: destination.slug },
           }"
         >
@@ -14,7 +14,7 @@
         <figure>
           <router-link
             :to="{
-              name: 'DestinationDetails',
+              name: 'destinationDetails',
               params: { slug: destination.slug },
             }"
           >
