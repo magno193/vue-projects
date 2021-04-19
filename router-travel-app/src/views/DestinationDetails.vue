@@ -13,7 +13,7 @@
     </section>
     <section class="experiences">
       <h2>Top experiences in: {{ destination.name }}</h2>
-      <div class="cards">
+      <div class="cards" id="experience">
         <div
           class="card"
           v-for="experience in destination.experiences"
@@ -23,6 +23,7 @@
             :to="{
               name: 'experienceDetails',
               params: { experienceSlug: experience.slug },
+              hash: '#experience',
             }"
           >
             <img
@@ -66,6 +67,9 @@ export default {
 img {
   min-width: 400px;
   height: 100%;
+}
+.experiences {
+  padding: 40px 0;
 }
 .destination-details {
   display: flex;
